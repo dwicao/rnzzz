@@ -1,10 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { statusBarHeight } from '../../utils';
 
-const styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     marginTop: statusBarHeight
   }
 });
-
-export default styles;
