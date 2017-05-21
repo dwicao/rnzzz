@@ -9,5 +9,11 @@ export default StyleSheet.create({
     height: 40,
     marginTop: 10,
     paddingHorizontal: 20
+  },
+  ketikaEdit: {
+    height: 40,
+    marginTop: 10,
+    paddingHorizontal: 20,
+    backgroundColor: 'yellow'
   }
 });

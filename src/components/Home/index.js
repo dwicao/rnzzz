@@ -17,11 +17,13 @@ class Home extends Component {
     this.dataKu = [
       {
         id: uuid.v4(),
-        text: 'row 1'
+        text: 'row 1',
+        isEditing: false,
       },
       {
         id: uuid.v4(),
-        text: 'row 2'
+        text: 'row 2',
+        isEditing: false,
       }
     ];
 
@@ -30,6 +32,8 @@ class Home extends Component {
       dataSource: ds.cloneWithRows(this.dataKu),
     };
 
+    this.ubahTodo = this.ubahTodo.bind(this);
+    this.toEdit = this.toEdit.bind(this);
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
     this.ubahInputanValue = this.ubahInputanValue.bind(this);
@@ -42,7 +46,8 @@ class Home extends Component {
   addTodo() {
     this.dataKu.push({
       id: uuid.v4(),
-      text: this.state.inputanValue
+      text: this.state.inputanValue,
+      isEditing: false,
     });
 
     this.setTodo();
@@ -59,16 +64,39 @@ class Home extends Component {
     this.setState({ dataSource: ds.cloneWithRows(this.dataKu) });
   }
 
+  toEdit(id) {
+    this.dataKu = this.dataKu.map(todo => {
+      if (todo.id !== id) return todo;
+      todo.isEditing = true;
+      return todo;
+    });
+
+    this.setTodo();
+  }
+
+  ubahTodo(id, text) {
+    this.dataKu = this.dataKu.map(todo => {
+      if (todo.id !== id) return todo;
+      todo.isEditing = false;
+      todo.text = text;
+      return todo;
+    });
+
+    this.setTodo();
+  }
+
   render() {
     return (
       <View>
-        <Text>ini adalah HOme</Text>
+        <Text>ini adalah Home</Text>
         <TambahTodo
           onSubmitEditing={this.addTodo}
           ubahInputanValue={this.ubahInputanValue}
           inputanValue={this.state.inputanValue}
         />
         <DaftarTodo
+          ubahTodo={this.ubahTodo}
+          toEdit={this.toEdit}
           deleteTodo={this.deleteTodo}
           dataSource={this.state.dataSource}
         />

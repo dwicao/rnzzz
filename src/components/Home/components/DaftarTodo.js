@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
+  TextInput,
   ListView,
   TouchableOpacity,
 } from 'react-native';
@@ -11,17 +12,40 @@ export default class DaftarTodo extends Component {
   constructor() {
     super();
 
-    this.renderRow = this.renderRow.bind(this)
+    this.state = {
+      textValue: '',
+    };
+
+    this.renderRow = this.renderRow.bind(this);
+    this.ubahText = this.ubahText.bind(this);
+  }
+
+  ubahText(text) {
+    this.setState({ textValue: text });
   }
 
   renderRow(rowData) {
+    if (rowData.isEditing) {
+      return (
+        <TextInput
+          style={styles.ketikaEdit}
+          onSubmitEditing={() => this.props.ubahTodo(rowData.id, this.state.textValue)}
+          onChangeText={this.ubahText}
+          value={this.state.textValue}
+        />
+      );
+    }
+
     return (
-      <View style={styles.row}>
+      <TouchableOpacity
+        onPress={() => this.props.toEdit(rowData.id)}
+        style={styles.row}
+      >
         <Text>{rowData.text}</Text>
         <TouchableOpacity onPress={() => this.props.deleteTodo(rowData.id)}>
           <Text>{'\u2716'}</Text>
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     );
   }
 
